@@ -1,8 +1,8 @@
-## <small>1.0.1 (2023-06-07)</small>
+# Changelog
 
-* v1.0.1 ([a14ee2a](https://github.com/tomark4/react-bluuweb-2023/commit/a14ee2a))
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-
+### [1.0.2](https://github.com/tomark4/react-bluuweb-2023/compare/v1.0.1...v1.0.2) (2023-06-07)
 
 ## 1.0.0 (2023-06-07)
 
@@ -24,6 +24,3 @@
 * docs: Update changelog.md ([5d48f3f](https://github.com/tomark4/react-bluuweb-2023/commit/5d48f3f))
 * style: Remove element on index page ([40b224b](https://github.com/tomark4/react-bluuweb-2023/commit/40b224b))
 * feat: Added empty proyect nextjs ([2ff4f97](https://github.com/tomark4/react-bluuweb-2023/commit/2ff4f97))
-
-
-
