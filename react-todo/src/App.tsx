@@ -25,7 +25,7 @@ const App = () => {
             Todo
           </h1>
           <button>
-            <MoonIcon />
+            <MoonIcon className="fill-yellow-300" />
           </button>
         </div>
 
@@ -61,7 +61,7 @@ const App = () => {
           ))}
 
           <section className="p-4 flex justify-between">
-            <span className="text-gray-400">5 items left</span>
+            <span className="text-gray-400">{todos.length} items left</span>
             <button className="text-gray-400">Clear all tasks completed</button>
           </section>
         </div>
