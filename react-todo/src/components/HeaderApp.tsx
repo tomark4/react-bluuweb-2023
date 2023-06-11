@@ -3,7 +3,9 @@ import { MoonIcon } from "./icons";
 import SunIcon from "./icons/SunIcon";
 
 const HeaderApp = () => {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem("theme") === "dark"
+  );
 
   useEffect(() => {
     if (darkMode) {
