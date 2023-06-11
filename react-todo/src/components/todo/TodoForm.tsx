@@ -23,7 +23,7 @@ const TodoForm = ({ onCreate }: Props) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white mt-8 rounded-md overflow-hidden py-4 flex gap-4 items-center px-4"
+      className="bg-white mt-8 rounded-md overflow-hidden py-4 flex gap-4 items-center px-4 dark:bg-gray-800"
     >
       <span className="rounded-full border-2 w-5 h-5 inline-block "></span>
       <input
@@ -33,7 +33,7 @@ const TodoForm = ({ onCreate }: Props) => {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Create a new TODO"
-        className="w-full text-gray-600 outline-none"
+        className="w-full text-gray-600 outline-none dark:bg-gray-800"
       />
     </form>
   );
