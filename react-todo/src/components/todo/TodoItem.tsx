@@ -3,8 +3,8 @@ import { CheckIcon, CrossIcon } from "../icons";
 interface Props {
   id: string;
   title: string;
-  completed?: boolean;
-  handleUpdate: (id: string) => void;
+  completed: boolean;
+  handleUpdate: (id: string, completed: boolean) => void;
   handleRemove: (id: string) => void;
 }
 
@@ -19,12 +19,12 @@ const TodoItem = ({
   handleRemove,
 }: Props) => {
   return (
-    <article className="flex gap-4 border-b-gray-200 border-b px-4 py-5 dark:bg-gray-800 ">
+    <article className="flex gap-4 border-b-gray-200 dark:border-b-gray-700 border-b px-4 py-5 dark:bg-gray-800 ">
       <button
         className={`rounded-full border-2 w-5 h-5 flex-none ${
           completed ? completeStyle : "inline-block"
         }`}
-        onClick={() => handleUpdate(id)}
+        onClick={() => handleUpdate(id, completed)}
       >
         {completed && <CheckIcon />}
       </button>

@@ -7,7 +7,7 @@ interface Props {
 
 const TodoComputed = ({ todos, handleClearAll }: Props) => {
   return (
-    <section className="p-4 flex justify-between rounded-b-md dark:bg-gray-800">
+    <section className="p-4 flex justify-between rounded-b-md dark:bg-gray-800 ">
       <span className="text-gray-400">
         {todos.filter((t) => !t.completed).length} items left
       </span>

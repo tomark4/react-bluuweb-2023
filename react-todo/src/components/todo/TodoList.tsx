@@ -3,14 +3,14 @@ import { TodoI } from "./TodoMain";
 
 interface Props {
   todos: TodoI[];
-  onUpdate: (id: string) => void;
+  onUpdate: (id: string, completed: boolean) => void;
   onRemove: (id: string) => void;
   onClearAll: () => void;
 }
 
 const TodoList = ({ todos, onRemove, onUpdate, onClearAll }: Props) => {
   return (
-    <div className="bg-white rounded-md mt-8">
+    <div className="bg-white dark:bg-gray-800 overflow-hidden rounded-md mt-8 transition-all duration-1000">
       {todos.map((todo) => (
         <TodoItem
           key={todo.id}

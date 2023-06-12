@@ -23,7 +23,7 @@ const TodoForm = ({ onCreate }: Props) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white mt-8 rounded-md overflow-hidden py-4 flex gap-4 items-center px-4 dark:bg-gray-800"
+      className="bg-white mt-8 rounded-md overflow-hidden py-4 flex gap-4 items-center px-4 dark:bg-gray-800 "
     >
       <span className="rounded-full border-2 w-5 h-5 inline-block "></span>
       <input

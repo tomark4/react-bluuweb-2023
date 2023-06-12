@@ -1,75 +1,78 @@
 import { useState } from "react";
 import { TodoForm, TodoList, TodoListFilter } from ".";
+import {
+  addTodo,
+  clearCompletedTodos,
+  getTodos,
+  removeTodo,
+  updateTodo,
+} from "./services/todos";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export interface TodoI {
   id: string;
   title: string;
-  completed?: boolean;
+  completed: boolean;
 }
 
 export type FilterT = "all" | "completed" | "not_completed";
 
-const initialState: TodoI[] = [
-  { id: crypto.randomUUID(), title: "Complete react course", completed: true },
-  { id: crypto.randomUUID(), title: "English conversational course" },
-  { id: crypto.randomUUID(), title: "Lorem ipsum" },
-  { id: crypto.randomUUID(), title: "Dolor sit amet" },
-];
-
 const TodoMain = () => {
-  const [todos, setTodos] = useState<TodoI[]>(initialState);
+  const queryClient = useQueryClient();
   const [filter, setFilter] = useState<FilterT>("all");
 
-  const handleAdd = (value: string) => {
-    setTodos((prev) => [...prev, { id: crypto.randomUUID(), title: value }]);
+  const handleSuccess = () => {
+    queryClient.invalidateQueries({ queryKey: ["todos", filter] });
   };
 
-  const handleRemove = (id: string) => {
-    setTodos(todos.filter((i) => i.id !== id));
-  };
+  const { isLoading, isError, error, data } = useQuery({
+    queryKey: ["todos", filter],
+    queryFn: () => getTodos(filter),
+  });
 
-  const handleUpdate = (id: string) => {
-    setTodos(
-      todos.map((i) => (i.id === id ? { ...i, completed: !i.completed } : i))
+  const handleAdd = useMutation(addTodo, {
+    onSuccess: handleSuccess,
+  });
+
+  const handleUpdate = useMutation(updateTodo, {
+    onSuccess: handleSuccess,
+  });
+
+  const handleRemove = useMutation(removeTodo, {
+    onSuccess: handleSuccess,
+  });
+
+  const handleClearCompleted = useMutation(clearCompletedTodos, {
+    onSuccess: handleSuccess,
+  });
+
+  const changeFilter = (status: FilterT) => setFilter(status);
+
+  if (isLoading)
+    return (
+      <h1 className="uppercase mt-5 font-bold text-white text-center">
+        Loading...
+      </h1>
     );
-  };
 
-  const clearAllCompleted = () => {
-    setTodos(todos.filter((t) => !t.completed));
-  };
-
-  const handleFilterTodos = (): TodoI[] => {
-    switch (filter) {
-      case "all": {
-        return todos;
-      }
-
-      case "completed": {
-        return todos.filter((t) => t.completed);
-      }
-
-      case "not_completed": {
-        return todos.filter((t) => !t.completed);
-      }
-
-      default: {
-        return todos;
-      }
-    }
-  };
-
-  const changeFilter = (value: FilterT) => setFilter(value);
+  if (isError) return <p>{(error as any).message} - Was an error</p>;
 
   return (
     <>
-      <main className="container mx-auto px-4 mt-8">
-        <TodoForm onCreate={handleAdd} />
+      <main className="container mx-auto px-4 mt-8 md:max-w-xl transition-all duration-1000">
+        <TodoForm
+          onCreate={(title) =>
+            handleAdd.mutate({ id: "", title, completed: false })
+          }
+        />
 
         <TodoList
-          todos={handleFilterTodos()}
-          onRemove={handleRemove}
-          onUpdate={handleUpdate}
-          onClearAll={clearAllCompleted}
+          todos={data}
+          onRemove={handleRemove.mutate}
+          onUpdate={(id, completed) =>
+            handleUpdate.mutate({ id, completed: !completed })
+          }
+          onClearAll={handleClearCompleted.mutate}
         />
 
         <TodoListFilter onFilter={changeFilter} filter={filter} />
