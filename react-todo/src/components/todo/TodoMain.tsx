@@ -5,9 +5,11 @@ import {
   clearCompletedTodos,
   getTodos,
   removeTodo,
+  updateOrder,
   updateTodo,
 } from "./services/todos";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { DragDropContext } from "@hello-pangea/dnd";
 
 export interface TodoI {
   id: string;
@@ -48,6 +50,18 @@ const TodoMain = () => {
 
   const changeFilter = (status: FilterT) => setFilter(status);
 
+  const handleChangeOrder = useMutation(updateOrder);
+
+  const handleDragEnd = (result: any) => {
+    const copyArray = [...data];
+    const startIndex = result.source.index;
+    const endIndex = result.destination.index;
+    const [x] = copyArray.splice(startIndex, 1);
+    copyArray.splice(endIndex, 0, x);
+    queryClient.setQueryData(["todos", filter], copyArray);
+    handleChangeOrder.mutate(copyArray.map((i) => i.id));
+  };
+
   if (isLoading)
     return (
       <h1 className="uppercase mt-5 font-bold text-white text-center">
@@ -65,15 +79,16 @@ const TodoMain = () => {
             handleAdd.mutate({ id: "", title, completed: false })
           }
         />
-
-        <TodoList
-          todos={data}
-          onRemove={handleRemove.mutate}
-          onUpdate={(id, completed) =>
-            handleUpdate.mutate({ id, completed: !completed })
-          }
-          onClearAll={handleClearCompleted.mutate}
-        />
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <TodoList
+            todos={data}
+            onRemove={handleRemove.mutate}
+            onUpdate={(id, completed) =>
+              handleUpdate.mutate({ id, completed: !completed })
+            }
+            onClearAll={handleClearCompleted.mutate}
+          />
+        </DragDropContext>
 
         <TodoListFilter onFilter={changeFilter} filter={filter} />
       </main>

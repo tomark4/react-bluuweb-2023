@@ -1,11 +1,10 @@
 {
-	"folders": [
-		{
-			"path": "react-todo"
-		},
-		{
-			"path": "backend-todo"
-		}
-	],
-	"settings": {}
+  "folders": [
+    {
+      "path": "react-todo"
+    },
+    {
+      "path": "backend-todo"
+    }
+  ]
 }

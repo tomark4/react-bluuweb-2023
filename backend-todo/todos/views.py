@@ -35,4 +35,19 @@ class TodoViewSet(viewsets.ModelViewSet):
       return Response(status.HTTP_204_NO_CONTENT) 
 
     return Response({"message": "Nothing to delete"},status.HTTP_200_OK)
+  
+  @action(methods=["POST"], detail=False)
+  def update_order(self, request):
+    try:
+      if 'todos' not in request.data:
+        return Response({"message": "Send todo list to update order"},status.HTTP_400_BAD_REQUEST)
+
+      for i, item in enumerate(request.data['todos']):
+        Todo.objects.filter(pk=item).update(order=i+1)
+      
+      serializer = TodoSerializer(Todo.objects.all(), many=True)
+      return Response({"message": "success", "todos":serializer.data},status.HTTP_200_OK)
+    except Exception as e:
+      return Response({"message": "Bad request","error":str(e)},status.HTTP_400_BAD_REQUEST)
+    
 

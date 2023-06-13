@@ -38,6 +38,18 @@ const clearCompletedTodos = async () => {
   return await axiosInstance.delete(`/todos/clear_all_completed/`);
 };
 
-export { getTodos, addTodo, updateTodo, removeTodo, clearCompletedTodos };
+const updateOrder = async (todos: { id: number; order: number }[]) => {
+  const resp = await axiosInstance.post(`/todos/update_order/`, { todos });
+  return resp.data;
+};
+
+export {
+  getTodos,
+  addTodo,
+  updateTodo,
+  removeTodo,
+  clearCompletedTodos,
+  updateOrder,
+};
 
 export default axiosInstance;
