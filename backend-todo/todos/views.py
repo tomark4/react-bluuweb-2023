@@ -34,5 +34,5 @@ class TodoViewSet(viewsets.ModelViewSet):
       delete_todos.delete()
       return Response(status.HTTP_204_NO_CONTENT) 
 
-    return Response({"message": "Nothing to delete"},status.HTTP_200_OK) 
+    return Response({"message": "Nothing to delete"},status.HTTP_200_OK)
 
