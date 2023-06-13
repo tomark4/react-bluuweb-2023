@@ -2,8 +2,7 @@ import HeaderApp from "./components/HeaderApp";
 import { TodoMain } from "./components/todo/";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const queryClient = new QueryClient();
-//dark:bg-[url('./assets/bg-mobile-dark.jpg')  md:dark:bg-[url('./assets/bg-desktop-dark.jpg')]
-//bg-[url('./assets/bg-mobile-light.jpg')] md:bg-[url('./assets/bg-desktop-light.jpg')]
+
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>

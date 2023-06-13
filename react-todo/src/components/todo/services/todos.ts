@@ -38,7 +38,7 @@ const clearCompletedTodos = async () => {
   return await axiosInstance.delete(`/todos/clear_all_completed/`);
 };
 
-const updateOrder = async (todos: { id: number; order: number }[]) => {
+const updateOrder = async (todos: number[]) => {
   const resp = await axiosInstance.post(`/todos/update_order/`, { todos });
   return resp.data;
 };
