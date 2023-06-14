@@ -5,6 +5,7 @@ import { SiteLayout } from "./layouts";
 
 // standard-version: changelog auto from commits
 
+// NOTE: OLD implementation of react router
 const App = () => {
   return (
     <>
