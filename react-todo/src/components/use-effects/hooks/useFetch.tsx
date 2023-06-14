@@ -30,18 +30,29 @@ export interface Company {
   bs: string;
 }
 
-const useFecth = () => {
-  const [users, setUsers] = useState<User[]>([]);
+interface Params {
+  uri: string;
+}
+
+const useFetch = ({ uri }: Params) => {
+  const [data, setData] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<any | null>(null);
 
   const fetchData = useCallback(async () => {
     try {
+      setError(null);
       setLoading(true);
-      const resp = await fetch(`https://jsonplaceholder.typicode.com/users/`);
+      const resp = await fetch(uri);
+
+      if (!resp.ok) throw new Error("fetch uri error");
+
       const data = await resp.json();
-      setUsers(data);
+      setData(data);
     } catch (e) {
       console.error(e);
+      setData([]);
+      setError(e);
     } finally {
       setTimeout(() => {
         setLoading(false);
@@ -53,7 +64,7 @@ const useFecth = () => {
     fetchData();
   }, [fetchData]);
 
-  return { users, loading };
+  return { data, loading, error };
 };
 
-export default useFecth;
+export default useFetch;
