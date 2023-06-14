@@ -1,1 +1,2 @@
-export { default as SiteLayout } from "./SiteLayout";
+export { default as PrivateLayout } from "./PrivateLayout";
+export { default as PublicLayout } from "./PublicLayout";

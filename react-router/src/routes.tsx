@@ -1,37 +1,17 @@
 import { createBrowserRouter } from "react-router-dom";
-import { AboutUs, Blog, Contact, Home, NotFound } from "./pages";
-import { SiteLayout } from "./layouts";
-import { loaderPosts } from "./pages/Home";
-import { loaderPost } from "./pages/Blog";
+import { PrivateLayout, PublicLayout } from "./layouts";
+import { Dashboard, Home } from "./pages";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <SiteLayout />,
-    errorElement: <NotFound />,
+    element: <PublicLayout />,
     children: [
+      { index: true, element: <Home /> },
       {
-        errorElement: <NotFound />,
-        children: [
-          {
-            index: true,
-            element: <Home />,
-            loader: loaderPosts,
-          },
-          {
-            path: "/about-us",
-            element: <AboutUs />,
-          },
-          {
-            path: "/post/:id",
-            element: <Blog />,
-            loader: loaderPost,
-          },
-          {
-            path: "/contact",
-            element: <Contact />,
-          },
-        ],
+        path: "/dashboard",
+        element: <PrivateLayout />,
+        children: [{ index: true, element: <Dashboard /> }],
       },
     ],
   },
