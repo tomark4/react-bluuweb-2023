@@ -14,11 +14,10 @@ const Blog = () => {
 
   return (
     <div>
-      <h1>Post</h1>
       {post && (
         <>
-          <h6>{post.id}</h6>
           <h1>{post.title}</h1>
+          <h4>#Id: {post.id}</h4>
           <p>{post.body}</p>
         </>
       )}
