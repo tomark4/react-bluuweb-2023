@@ -1,6 +1,10 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAuthContext } from "../context/auth/AuthContext";
 
 const Navbar = () => {
+  const { logout, status } = useAuthContext();
+  const navigate = useNavigate();
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-success">
       <a className="navbar-brand" href="#">
@@ -24,11 +28,26 @@ const Navbar = () => {
               Home
             </NavLink>
           </li>
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/dashboard">
-              Dashboard
-            </NavLink>
-          </li>
+          {status === "auth" && (
+            <>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/dashboard">
+                  Dashboard
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <button
+                  onClick={() => {
+                    logout();
+                    navigate("/");
+                  }}
+                  className="nav-link btn btn-outline-danger"
+                >
+                  Logout
+                </button>
+              </li>
+            </>
+          )}
         </ul>
       </div>
     </nav>
