@@ -10,6 +10,7 @@ python-dotenv = "*"
 django-cors-headers = "*"
 install = "*"
 drf-yasg = "*"
+djangorestframework-simplejwt = "*"
 
 [dev-packages]
 
