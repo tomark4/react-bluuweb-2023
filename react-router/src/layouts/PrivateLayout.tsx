@@ -4,9 +4,7 @@ import { useAuthContext } from "../context/auth/AuthContext";
 const PrivateLayout = () => {
   const { status, user } = useAuthContext();
 
-  return (
-    <>{!user && status === "non-auth" ? <Navigate to="/" /> : <Outlet />}</>
-  );
+  return !user && status === "non-auth" ? <Navigate to="/" /> : <Outlet />;
 };
 
 export default PrivateLayout;
