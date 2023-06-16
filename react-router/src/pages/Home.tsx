@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/auth/AuthContext";
 import { useState } from "react";
 
@@ -14,7 +14,6 @@ const Home = () => {
 
   const handleLogin = async () => {
     setLoading(true);
-    console.log(values);
     await login(values.username, values.password);
     setLoading(false);
     navigate("/dashboard");
@@ -61,6 +60,9 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <p className="text-center mt-2">
+        Don't have and account <Link to="/register">Register</Link>
+      </p>
     </div>
   );
 };
