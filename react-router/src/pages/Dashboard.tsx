@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { axiosInstance } from "../utils/axios-instance";
 import { useAuthContext } from "../context/auth/AuthContext";
+import { AuthGuard } from "../components";
 
 const Dashboard = () => {
   const { user, setUser } = useAuthContext();
@@ -18,10 +19,12 @@ const Dashboard = () => {
   }, [user]);
 
   return (
-    <div>
-      <h2>Dashboard</h2>
-      {JSON.stringify(user)}
-    </div>
+    <AuthGuard>
+      <div>
+        <h2>Dashboard</h2>
+        {JSON.stringify(user)}
+      </div>
+    </AuthGuard>
   );
 };
 

@@ -27,12 +27,8 @@ const AuthProvider = ({ children }: any) => {
   }, [state]);
 
   const login = async (username: string, password: string) => {
-    try {
-      const resp = await axiosInstance.post(`/token/`, { username, password });
-      dispatch({ type: "LOGIN", payload: resp.data });
-    } catch (e) {
-      console.log(e);
-    }
+    const resp = await axiosInstance.post(`/token/`, { username, password });
+    await dispatch({ type: "LOGIN", payload: resp.data });
   };
 
   const setUser = async (payload: any) => {

@@ -1,25 +1,32 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "../utils/axios-instance";
+import { GuestGuard } from "../components";
+import * as Yup from "yup";
+import { Formik } from "formik";
+
+const validationSchema = Yup.object().shape({
+  username: Yup.string().required(),
+  password: Yup.string().required(),
+  passwordConfirm: Yup.string()
+    .required()
+    .oneOf([Yup.ref("password")], "Passwords must match"),
+});
+
+const initialValues = {
+  username: "",
+  password: "",
+  passwordConfirm: "",
+  firstName: "",
+  lastName: "",
+};
 
 const Register = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(undefined);
-  const [values, setValues] = useState({
-    username: "",
-    password: "",
-    passwordConfirm: "",
-    firstName: "",
-    lastName: "",
-  });
 
-  const handleChange = (e: any) => {
-    setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const handleRegister = async (e: any) => {
-    e.preventDefault();
+  const handleRegister = async (values: typeof initialValues) => {
     setLoading(true);
     try {
       setError("");
@@ -44,77 +51,104 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <h1>Register</h1>
-      <div className="container">
-        <div className="row">
-          <div className="col-6 mx-auto">
-            {error && <div className="alert alert-danger">{error}</div>}
-            <form onSubmit={handleRegister}>
-              <div className="mb-2">
-                <input
-                  type="text"
-                  name="firstName"
-                  placeholder="First name"
-                  value={values.firstName}
-                  onChange={handleChange}
-                  className="form-control"
-                />
-              </div>
-              <div className="mb-2">
-                <input
-                  type="text"
-                  name="lastName"
-                  placeholder="Last name"
-                  value={values.lastName}
-                  onChange={handleChange}
-                  className="form-control"
-                />
-              </div>
-              <div className="mb-2">
-                <input
-                  type="username"
-                  name="username"
-                  placeholder="Username"
-                  value={values.username}
-                  onChange={handleChange}
-                  className="form-control"
-                />
-              </div>
-              <div className="mb-2">
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  value={values.password}
-                  onChange={handleChange}
-                  className="form-control"
-                />
-              </div>
-              <div className="mb-2">
-                <input
-                  type="password"
-                  name="passwordConfirm"
-                  placeholder="Password confirm"
-                  value={values.passwordConfirm}
-                  onChange={handleChange}
-                  className="form-control"
-                />
-              </div>
-              <div className="mb-2">
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={loading}
-                >
-                  {loading ? "Validate..." : "Login"}
-                </button>
-              </div>
-            </form>
+    <GuestGuard>
+      <div>
+        <h1>Register</h1>
+        <div className="container">
+          <div className="row">
+            <div className="col-6 mx-auto">
+              {error && <div className="alert alert-danger">{error}</div>}
+              <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={(values) => handleRegister(values)}
+              >
+                {({ handleSubmit, getFieldProps, errors, touched }) => (
+                  <form onSubmit={handleSubmit}>
+                    <div className="mb-2">
+                      <input
+                        type="text"
+                        placeholder="First name"
+                        className="form-control"
+                        {...getFieldProps("firstName")}
+                      />
+                    </div>
+                    <div className="mb-2">
+                      <input
+                        type="text"
+                        placeholder="Last name"
+                        className="form-control"
+                        {...getFieldProps("lastName")}
+                      />
+                    </div>
+                    <div className="mb-2">
+                      <input
+                        type="username"
+                        placeholder="Username"
+                        className={`form-control ${
+                          errors.username && touched.username
+                            ? "is-invalid"
+                            : ""
+                        }`}
+                        {...getFieldProps("username")}
+                      />
+                      {errors.username && touched.username && (
+                        <div className="d-block invalid-feedback">
+                          {errors.username}
+                        </div>
+                      )}
+                    </div>
+                    <div className="mb-2">
+                      <input
+                        type="password"
+                        placeholder="Password"
+                        className={`form-control ${
+                          errors.username && touched.username
+                            ? "is-invalid"
+                            : ""
+                        }`}
+                        {...getFieldProps("password")}
+                      />
+                      {errors.password && touched.password && (
+                        <div className="d-block invalid-feedback">
+                          {errors.password}
+                        </div>
+                      )}
+                    </div>
+                    <div className="mb-2">
+                      <input
+                        type="password"
+                        placeholder="Password confirm"
+                        className={`form-control ${
+                          errors.username && touched.username
+                            ? "is-invalid"
+                            : ""
+                        }`}
+                        {...getFieldProps("passwordConfirm")}
+                      />
+                      {errors.passwordConfirm && touched.passwordConfirm && (
+                        <div className="d-block invalid-feedback">
+                          {errors.passwordConfirm}
+                        </div>
+                      )}
+                    </div>
+                    <div className="mb-2">
+                      <button
+                        type="submit"
+                        className="btn btn-primary"
+                        disabled={loading}
+                      >
+                        {loading ? "Validate..." : "Login"}
+                      </button>
+                    </div>
+                  </form>
+                )}
+              </Formik>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </GuestGuard>
   );
 };
 

@@ -23,11 +23,13 @@ const Navbar = () => {
       </button>
       <div className="collapse navbar-collapse" id="navbarNav">
         <ul className="navbar-nav">
-          <li className="nav-item active">
-            <NavLink to="/" className="nav-link">
-              Home
-            </NavLink>
-          </li>
+          {status === "non-auth" && (
+            <li className="nav-item active">
+              <NavLink to="/" className="nav-link">
+                Login
+              </NavLink>
+            </li>
+          )}
           {status === "auth" && (
             <>
               <li className="nav-item">
