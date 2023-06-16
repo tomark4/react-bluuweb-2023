@@ -1,22 +1,15 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import { User, authReducer, initialState } from "./authReducer";
-
-const fakeLogin = (): Promise<User> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        id: 1,
-        name: "joseph",
-      });
-    }, 3000);
-  });
-};
+import { axiosInstance } from "../../utils/axios-instance";
 
 interface AuthContextI {
   status: "auth" | "non-auth";
   user: User | undefined;
   login: (email: string, password: string) => void;
   logout: () => void;
+  setUser: (payload: any) => void;
+  accessToken?: string;
+  refreshToken?: string;
 }
 
 export const AuthContext = createContext({} as AuthContextI);
@@ -33,10 +26,17 @@ const AuthProvider = ({ children }: any) => {
     localStorage.setItem("@state", JSON.stringify(state));
   }, [state]);
 
-  const login = async (email: string, password: string) => {
-    console.log(email, password);
-    const user = await fakeLogin();
-    dispatch({ type: "LOGIN", payload: user });
+  const login = async (username: string, password: string) => {
+    try {
+      const resp = await axiosInstance.post(`/token/`, { username, password });
+      dispatch({ type: "LOGIN", payload: resp.data });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const setUser = async (payload: any) => {
+    dispatch({ type: "SET_USER", payload });
   };
 
   const logout = () => {
@@ -44,7 +44,7 @@ const AuthProvider = ({ children }: any) => {
   };
 
   return (
-    <AuthContext.Provider value={{ ...state, login, logout }}>
+    <AuthContext.Provider value={{ ...state, login, setUser, logout }}>
       {children}
     </AuthContext.Provider>
   );

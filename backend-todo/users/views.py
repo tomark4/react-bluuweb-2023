@@ -1,8 +1,24 @@
-from rest_framework import viewsets
-from .serializers import UserSerializer
-from .models import User
+from .serializers import (
+  UserSerializer,
+  UserRegisterSerializer
+)
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.status import HTTP_200_OK
+from rest_framework.response import Response
 
-class UsersViewSet(viewsets.ModelViewSet):
-  queryset = User.objects.all()
-  model = User
-  serializer_class = UserSerializer
+class UserRegisterView(APIView):
+  def post(self, request):
+    serializer = UserRegisterSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+      serializer.save()
+      return Response(status=HTTP_200_OK, data={"message": 'success', "user": serializer.data})
+
+
+class UserView(APIView):
+  permission_classes =[IsAuthenticated]
+
+  def get(self, request):
+    serializer = UserSerializer(request.user)
+    return Response(serializer.data, status=HTTP_200_OK)
+
