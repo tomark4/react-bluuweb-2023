@@ -1,0 +1,41 @@
+---
+title: Lorem ipsum dolor sit amet, consectetur adipiscing elit 04
+description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
+date: 2023-01-04
+---
+
+# Lorem ipsum dolor sit amet, consectetur adipiscing elit
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Libero enim sed faucibus turpis. Cursus turpis massa tincidunt dui ut ornare lectus. Nec feugiat in fermentum posuere urna nec tincidunt praesent semper. Pretium nibh ipsum consequat nisl vel pretium lectus quam.
+
+```tsx
+import { useState } from "react";
+
+const MiComponente = (props) => {
+  const [state, setState] = useState("Hola mundo");
+
+  return <div>{state}</div>;
+};
+
+const PostsList = () => {
+  return (
+    <div>
+      <h1 className="text-center my-4 text-3xl">My blog</h1>
+      <div className="grid gap-4">
+        {posts.map((post) => (
+          <>
+            <article>
+              <h2 className="text-2xl">
+                <Link href={`${post.url}`}>{post.title}</Link>
+              </h2>
+              <PostDate value={post.date} />
+              <p>{post.description}</p>
+            </article>
+            <hr />
+          </>
+        ))}
+      </div>
+    </div>
+  );
+};
+```
