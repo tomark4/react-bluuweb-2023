@@ -1,7 +1,10 @@
 import "./globals.css";
-// import { Inter } from "next/font/google";
+import { Open_Sans } from "next/font/google";
 
-// const inter = Inter({ subsets: ["latin"] });
+const openSans = Open_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700"],
+});
 
 export const metadata = {
   title: "Create Next App",
@@ -15,8 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      {/* <body className={inter.className}> */}
-      <body>
+      <body className={openSans.className}>
         <div className="container mx-auto max-w-xl">{children}</div>
       </body>
     </html>
