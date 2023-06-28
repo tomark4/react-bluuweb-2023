@@ -1,12 +1,13 @@
-import { PostList, PostPagination } from "@/app/components";
-import { Post, allPosts } from "contentlayer/generated";
 import React from "react";
+import { notFound } from "next/navigation";
+import { PostList, PostPagination } from "@/app/components";
+import { getPostPagination, totalPages } from "@/utils/pagination";
 
-const posts: Post[] = allPosts.sort((a, b) => b.date.localeCompare(a.date));
-
-const totalPosts = posts.length;
-const postPerPage = 1;
-const totalPages = Math.ceil(totalPosts / postPerPage);
+export const generateStaticParams = async () => {
+  return Array.from({ length: totalPages }).map((_, index: number) => ({
+    p: `${index + 1}`,
+  }));
+};
 
 interface Props {
   params: { p: string };
@@ -14,11 +15,21 @@ interface Props {
 
 const PageNumberComponent = ({ params }: Props) => {
   const currentPage = Number(params.p);
-  const offset = (currentPage - 1) * postPerPage;
-  const currentPosts = posts.slice(offset, offset + postPerPage);
+  const { p } = params;
+  let posts = [];
+
+  try {
+    if (!/^\d+$/.test(p)) {
+      notFound();
+    }
+    posts = getPostPagination(currentPage).currentPosts;
+  } catch (e) {
+    notFound();
+  }
+
   return (
     <>
-      <PostList posts={currentPosts} />
+      <PostList posts={posts} />
       <PostPagination currentPage={currentPage} totalPages={totalPages} />
     </>
   );
