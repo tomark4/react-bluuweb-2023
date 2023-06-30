@@ -11,10 +11,14 @@
   },
   "devDependencies": {},
   "dependencies": {
-    "@strapi/strapi": "4.11.3",
-    "@strapi/plugin-users-permissions": "4.11.3",
     "@strapi/plugin-i18n": "4.11.3",
-    "better-sqlite3": "8.0.1"
+    "@strapi/plugin-users-permissions": "4.11.3",
+    "@strapi/strapi": "4.11.3",
+    "better-sqlite3": "8.0.1",
+    "clsx": "^1.2.1",
+    "flowbite": "^1.6.6",
+    "flowbite-react": "^0.4.9",
+    "tailwind-merge": "^1.13.2"
   },
   "author": {
     "name": "A Strapi developer"

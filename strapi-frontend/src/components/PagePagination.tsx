@@ -8,9 +8,10 @@ interface Props {
     pageCount: number;
     total: number;
   };
+  path?: string;
 }
 
-const PagePagination = ({ pagination }: Props) => {
+const PagePagination = ({ path = "blog", pagination }: Props) => {
   const { page, pageCount } = pagination;
 
   const activeClass =
@@ -25,12 +26,18 @@ const PagePagination = ({ pagination }: Props) => {
   const classNext =
     "px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white";
 
+  const navigationPath = path ? `/${path}?p=` : `/blog?p=`;
+
   return (
     <nav aria-label="Page navigation example" className="text-center">
       <ul className="inline-flex -space-x-px">
         <li>
           <a
-            href={page === 1 ? `/blog/?p=${page}` : `/blog/?p=${page - 1}`}
+            href={
+              page === 1
+                ? `${navigationPath}${page}`
+                : `${navigationPath}${page - 1}`
+            }
             className={`${classPrev} ${
               page === 1 ? "opacity-50 pointer-events-none" : ""
             }`}
@@ -41,7 +48,7 @@ const PagePagination = ({ pagination }: Props) => {
         {Array.from({ length: pageCount }).map((_, index) => (
           <li key={index}>
             <Link
-              href={`/blog/?p=${index + 1}`}
+              href={`${navigationPath}${index + 1}`}
               className={`${index + 1 === page ? activeClass : linkItemClass}`}
             >
               {index + 1}
@@ -52,7 +59,9 @@ const PagePagination = ({ pagination }: Props) => {
         <li>
           <Link
             href={
-              page === pageCount ? `/blog/?p=${page}` : `/blog/?p=${page + 1}`
+              page === pageCount
+                ? `${navigationPath}${page}`
+                : `${navigationPath}${page + 1}`
             }
             className={`${classNext} ${
               page === pageCount ? "opacity-50 pointer-events-none" : ""
